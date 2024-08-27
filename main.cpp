@@ -24,48 +24,48 @@ int main(){
    	    if (strlen(cipherkey) > 16) {
    		    cout<<"Cipherkey terlalu panjang. Maksimum 16 karakter."<<endl;
    	    } else {
-      	    // Memastikan plaintext dan cipherkey memiliki panjang yang sama
+		    // Memastikan plaintext dan cipherkey memiliki panjang yang sama
    		    if (strlen(plaintext) != strlen(cipherkey)) {
    			    cout<<"Panjang plaintext dan cipherkey harus sama."<<endl;
    		    } else {
-         	    // Mengubah plaintext ke format desimal
+			    // Mengubah plaintext ke format desimal
    			    int despt[4][4];
-                char resultEncryption[4][4][2];
+			    char resultEncryption[4][4][2];
    			    stringToMatrix(plaintext, despt);
    			    cout<<"\n Matrix of Byte Plaintext:"<<endl;
    			    for (int row = 0; row < 4; row++) {
-                    cout<<" ";
+				    cout<<" ";
    				    for (int col = 0; col < 4; col++) {
-      				    cout<<despt[row][col]<<"\t";
-      			    }
-      			    cout<<endl;
-   			    }
+					    cout<<despt[row][col]<<"\t";
+				    }
+				    cout<<endl;
+			    }
 
    			    // Mengubah desimal plaintext format heksadesimal 16-bit
    			    char state[4][4][2];
    			    matrixToHex(despt, state);
    			    cout<<"\n State (Plaintext):"<<endl;
    			    for (int row = 0; row < 4; row++) {
-                    cout<<" ";
+				    cout<<" ";
    				    for (int col = 0; col < 4; col++) {
-                        for (int i = 0; i < 2; i++){
-      				        cout<<state[row][col][i];
-                        }
-                        cout<<"\t";
-      			    }
-      			    cout<<endl;
+					    for (int i = 0; i < 2; i++){
+						    cout<<state[row][col][i];
+					    }
+					    cout<<"\t";
+				    }
+				    cout<<endl;
    			    }
-
-                // Mengubah cipherkey ke format desimal
+			    
+			    // Mengubah cipherkey ke format desimal
    			    int desck[4][4];
    			    stringToMatrix(cipherkey, desck);
    			    cout<<"\n Matrix of Byte Cipherkey:"<<endl;
    			    for (int row = 0; row < 4; row++) {
-                    cout<<" ";
+				    cout<<" ";
    				    for (int col = 0; col < 4; col++) {
-      				    cout<<desck[row][col]<<"\t";
-      			    }
-      			    cout<<endl;
+					    cout<<desck[row][col]<<"\t";
+				    }
+				    cout<<endl;
    			    }
 
    			    // Mengubah desimal cipherkey format heksadesimal 16-bit
@@ -73,14 +73,14 @@ int main(){
    			    matrixToHex(desck, key);
    			    cout<<"\n Cipherkey (hexadecimal):"<<endl;
    			    for (int row = 0; row < 4; row++) {
-                    cout<<" ";
+				    cout<<" ";
    				    for (int col = 0; col < 4; col++) {
-                        for (int i = 0; i < 2; i++){
-      				        cout<<key[row][col][i];
-                        }
-                        cout<<"\t";
-      			    }
-      			    cout<<endl;
+					    for (int i = 0; i < 2; i++){
+						    cout<<key[row][col][i];
+					    }
+					    cout<<"\t";
+				    }
+				    cout<<endl;
    			    }
 
                 cout<<"\n\n\n\n";
