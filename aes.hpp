@@ -8,7 +8,7 @@ extern const char Rcon[4][10][2];
 // Function declarations
 void stringToMatrix(const char* input, int matrix[4][4]);
 void decimalToHex(int decimalValue, char hexValue[2]);
-void matrixToHex(int inputMatrix[4][4], char hexMatrix[4][4][2]);
+void matrixToHex(const int inputMatrix[4][4], char hexMatrix[4][4][2]);
 void destoBiner8digit(int inputdesimal, int binary[8]);
 void desToBiner(int inputdesimal, int binary[4]);
 int binerToDes(int inputbinary[4]);
