@@ -76,7 +76,7 @@ void decimalToHex(int decimalValue, char hexValue[2]) {
 }
 
 // Fungsi untuk mengonversi matriks ke format heksadesimal
-void matrixToHex(int inputMatrix[4][4], char hexMatrix[4][4][2]) {
+void matrixToHex(const int inputMatrix[4][4], char hexMatrix[4][4][2]) {
 	for (int row = 0; row < 4; row++) {
    	    for (int col = 0; col < 4; col++) {
       	    decimalToHex(inputMatrix[row][col], hexMatrix[row][col]);
