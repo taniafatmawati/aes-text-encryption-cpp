@@ -48,6 +48,7 @@ The goal of this project is to implement the **Advanced Encryption Standard (AES
    - The program will display encrypted text for the inputed plaintext and key.
 
 ## 📝 Algorithm and Implementation
+
 The AES algorithm involves the following steps:
 
 1. **Encryption**:
@@ -64,8 +65,6 @@ The AES algorithm involves the following steps:
 ## 📋 Result and Documentation
 
 1. **📄 Results**
-
-   The AES implementation project achieved:
    - 🔒 Efficient Encryption: Successfully processed text data with 128-bit blocks, achieving high performance and security. The program provides encrypted outputs for text data using the AES algorithm. 
    - ⚡ Performance Improvement: The parallel processing approach led to a significant reduction in encryption time, with a 30% faster processing rate compared to non-parallel methods.
 
