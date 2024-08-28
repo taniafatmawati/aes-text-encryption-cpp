@@ -1,10 +1,8 @@
 # 🛡️ Cryptography Application: AES Implementation for Text Data Security
 
----
-
-## 📋 Project Objectives
-
 The goal of this project is to implement the **Advanced Encryption Standard (AES)** algorithm for securing text data. AES is a symmetric encryption algorithm that ensures data confidentiality by transforming it into an encrypted format. This implementation uses AES 128-bit encryption to secure text data.
+
+---
 
 ## 📋 Prerequisites
 
