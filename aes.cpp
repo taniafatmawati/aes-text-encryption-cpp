@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Tabel S-Box AES
+// AES S-Box Table
 const char SBox[16][16][2] = {
     {{'6','3'}, {'7','C'}, {'7','7'}, {'7','B'}, {'F','2'}, {'6','B'}, {'6','F'}, {'C','5'}, {'3','0'}, {'0','1'}, {'6','7'}, {'2','B'}, {'F','E'}, {'D','7'}, {'A','B'}, {'7','6'}},
     {{'C','A'}, {'8','2'}, {'C','9'}, {'7','D'}, {'F','A'}, {'5','9'}, {'4','7'}, {'F','0'}, {'A','D'}, {'D','4'}, {'A','2'}, {'A','F'}, {'9','C'}, {'A','4'}, {'7','2'}, {'C','0'}},
@@ -33,7 +33,7 @@ const char Rcon[4][10][2] = {
     {{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'},{'0','0'}}
 };
 
-// Fungsi untuk mengonversi string menjadi matrix of bytes
+// Function to convert a string to a matrix of bytes
 void stringToMatrix(const char* input, int matrix[4][4]) {
 	int index = 0;
 
@@ -49,7 +49,7 @@ void stringToMatrix(const char* input, int matrix[4][4]) {
     }
 }
 
-// Fungsi untuk mengonversi desimal ke heksadesimal
+// Function to convert decimal to hexadecimal
 void decimalToHex(int decimalValue, char hexValue[2]) {
     int tampungan[8], temp[2][4];
     destoBiner8digit(decimalValue, tampungan);
@@ -75,7 +75,7 @@ void decimalToHex(int decimalValue, char hexValue[2]) {
     }
 }
 
-// Fungsi untuk mengonversi matriks ke format heksadesimal
+// Function to convert matrix to hexadecimal format
 void matrixToHex(const int inputMatrix[4][4], char hexMatrix[4][4][2]) {
 	for (int row = 0; row < 4; row++) {
    	    for (int col = 0; col < 4; col++) {
@@ -84,6 +84,7 @@ void matrixToHex(const int inputMatrix[4][4], char hexMatrix[4][4][2]) {
     }
 }
 
+// Function to convert decimal to 8-digit binary
 void destoBiner8digit(int inputdesimal, int binary[8]){
     int tampungan=0,i,temp = -1;
     for (i = 7 ; i >= 0 ; i--) {
@@ -98,6 +99,7 @@ void destoBiner8digit(int inputdesimal, int binary[8]){
     }
 }
 
+// Function to convert decimal to binary
 void desToBiner(int inputdesimal, int binary[4]){
 	int tampungan=0,i,temp = -1;
     for (i = 3 ; i >= 0 ; i--)
@@ -114,6 +116,7 @@ void desToBiner(int inputdesimal, int binary[4]){
     }
 }
 
+// Function to convert binary to decimal
 int binerToDes(int inputbinary[4]){
 	int desimal = 0;
     int temp = 3;
@@ -126,6 +129,7 @@ int binerToDes(int inputbinary[4]){
     return desimal;
 }
 
+// Function to convert 8-bit binary to decimal
 int biner8ToDes(int inputbinary[8]){
 	int desimal = 0;
     int temp = 7;
@@ -138,7 +142,7 @@ int biner8ToDes(int inputbinary[8]){
     return desimal;
 }
 
-// Fungsi untuk melakukan RotWord
+// Function to perform RotWord
 void rotWord(char word[4][2]) {
     char temp[2];
     temp[0] = word[0][0];
@@ -153,7 +157,7 @@ void rotWord(char word[4][2]) {
     word[3][1] = temp[1];
 }
 
-// Fungsi untuk melakukan SubBytes
+// Function to perform SubBytes
 void subBytes(char word[4][2]) {
     static const char hexChars[] = "0123456789ABCDEF";
     for (int i = 0; i < 4; i++) {
@@ -161,7 +165,7 @@ void subBytes(char word[4][2]) {
         char yvalue = word[i][1];
         int x = -1, y = -1;
 
-        // Mengubah karakter heksadesimal menjadi bilangan desimal
+        // Converting hexadecimal character to decimal value
         for (int j = 0; j < 16; j++) {
             if (xvalue == hexChars[j]) {
                 x = j;
@@ -172,48 +176,48 @@ void subBytes(char word[4][2]) {
         }
 
         if (x != -1 && y != -1) {
-            // Mengganti nilai word[i] dengan nilai dari SBox
+            // Replacing word[i] value with the value from SBox
             word[i][0] = SBox[x][y][0];
             word[i][1] = SBox[x][y][1];
         } else {
-            // Penanganan kesalahan jika karakter heksadesimal tidak valid
-            cout<<"Karakter heksadesimal tidak valid: "<<xvalue<<yvalue << endl;
+            // Error handling if the hexadecimal character is invalid
+            cout << "Invalid hexadecimal character: " << xvalue << yvalue << endl;
         }
     }
 }
 
-// Fungsi untuk melakukan XOR antara dua blok
+// Function to perform XOR between two blocks
 void xorBlocks(int block1[4], int block2[4], int result[4]) {
-	for (int i = 0; i < 4; i++) {
-   	    if (block1[i] == block2[i]){
-      	    result[i] = 0;
+    for (int i = 0; i < 4; i++) {
+        if (block1[i] == block2[i]) {
+            result[i] = 0;
         } else {
-      	    result[i] = 1;
+            result[i] = 1;
         }
     }
 }
 
-// Fungsi untuk melakukan operasi XOR pada kolom pertama tiap round proses pembangkitan kunci
-void xorfisrtcolumn (int round, char subbytes[2], char rowprev[2], const char rcon[10][2], char result[2]) {
-    int temp[3][2],i,j,blocktamp[3][2][4],tampungan[4],tampakhir[4];
-    for (j = 0; j < 2; j++){
-   	    temp[0][j] = static_cast<int>(rowprev[j]-48);
-        temp[1][j] = static_cast<int>(subbytes[j]-48);
-        temp[2][j] = static_cast<int>(rcon[round - 1][j]-48);
-        for (i = 0; i < 3; i++){
+// Function to perform XOR on the first column in each round of key generation process
+void xorfisrtcolumn(int round, char subbytes[2], char rowprev[2], const char rcon[10][2], char result[2]) {
+    int temp[3][2], i, j, blocktamp[3][2][4], tampungan[4], tampakhir[4];
+    for (j = 0; j < 2; j++) {
+        temp[0][j] = static_cast<int>(rowprev[j] - 48);
+        temp[1][j] = static_cast<int>(subbytes[j] - 48);
+        temp[2][j] = static_cast<int>(rcon[round - 1][j] - 48);
+        for (i = 0; i < 3; i++) {
             if (temp[i][j] > 9) {
                 temp[i][j] -= 7;
             }
         }
     }
-    for (i = 0; i < 3; i++){
-   	    for (j = 0; j < 2; j++){
-      	    desToBiner(temp[i][j],blocktamp[i][j]);
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 2; j++) {
+            desToBiner(temp[i][j], blocktamp[i][j]);
         }
     }
-    for (i = 0; i < 2; i++){
-   	    xorBlocks(blocktamp[0][i],blocktamp[1][i],tampungan);
-        xorBlocks(tampungan,blocktamp[2][i],tampakhir);
+    for (i = 0; i < 2; i++) {
+        xorBlocks(blocktamp[0][i], blocktamp[1][i], tampungan);
+        xorBlocks(tampungan, blocktamp[2][i], tampakhir);
         int temp1 = binerToDes(tampakhir);
         if (temp1 < 10) {
             result[i] = static_cast<char>(temp1 + 48);
@@ -223,25 +227,25 @@ void xorfisrtcolumn (int round, char subbytes[2], char rowprev[2], const char rc
     }
 }
 
-// Fungsi untuk melakukan operasi XOR pada kolom pertama tiap round proses pembangkitan kunci
-void xornextcolumn (char col1[2], char col2[2], char result[2]) {
-    int temp[2][2],i,j,blocktamp[2][2][4],tampungan[4];
-    for (j = 0; j < 2; j++){
-   	    temp[0][j] = static_cast<int>(col1[j]-48);
-        temp[1][j] = static_cast<int>(col2[j]-48);
-        for (i = 0; i < 2; i++){
+// Function to perform XOR on the next column in each round of key generation process
+void xornextcolumn(char col1[2], char col2[2], char result[2]) {
+    int temp[2][2], i, j, blocktamp[2][2][4], tampungan[4];
+    for (j = 0; j < 2; j++) {
+        temp[0][j] = static_cast<int>(col1[j] - 48);
+        temp[1][j] = static_cast<int>(col2[j] - 48);
+        for (i = 0; i < 2; i++) {
             if (temp[i][j] > 9) {
                 temp[i][j] -= 7;
             }
         }
     }
-    for (i = 0; i < 2; i++){
-   	    for (j = 0; j < 2; j++){
-      	    desToBiner(temp[i][j],blocktamp[i][j]);
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            desToBiner(temp[i][j], blocktamp[i][j]);
         }
     }
-    for (i = 0; i < 2; i++){
-   	    xorBlocks(blocktamp[0][i],blocktamp[1][i],tampungan);
+    for (i = 0; i < 2; i++) {
+        xorBlocks(blocktamp[0][i], blocktamp[1][i], tampungan);
         int temp1 = binerToDes(tampungan);
         if (temp1 < 10) {
             result[i] = static_cast<char>(temp1 + 48);
@@ -251,62 +255,48 @@ void xornextcolumn (char col1[2], char col2[2], char result[2]) {
     }
 }
 
-// Fungsi untuk menampilkan matriks roundkeys
-void tampilmatrix (char matrix[4][4][2]){
-    for (int row = 0; row < 4; row++) {
-        cout<<" ";
-        for (int col = 0; col < 4; col++) {
-            for (int i = 0; i < 2; i++){
-      			cout<<matrix[row][col][i];
-            }
-            cout<<"\t";
-        }
-        cout << endl;
-    }
-}
-
-// Fungsi untuk melakukan AddRoundKey Transformation
+// Function to perform AddRoundKey Transformation
 void addRoundKey(char state[4][4][2], char roundKey[4][4][2], char result[4][4][2]) {
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
-            xornextcolumn (state[row][col], roundKey[row][col], result[row][col]);
+            xornextcolumn(state[row][col], roundKey[row][col], result[row][col]);
         }
     }
 }
 
-// Fungsi untuk melakukan ShiftRows Transformation
+// Function to perform ShiftRows Transformation
 void shiftRows(char state[4][4][2]) {
     int temp[4][4][2];
 
-    // Row 0 tidak digeser
+    // Row 0 is not shifted
     for (int col = 0; col < 4; col++) {
         for (int i = 0; i < 2; i++) {
             temp[0][col][i] = state[0][col][i];
         }
     }
 
-    // Row 1 digeser sejauh 1 byte ke kiri
+    // Row 1 is shifted 1 byte to the left
     for (int col = 0; col < 4; col++) {
         for (int i = 0; i < 2; i++) {
             temp[1][col][i] = state[1][(col + 1) % 4][i];
         }
     }
 
-    // Row 2 digeser sejauh 2 byte ke kiri
+    // Row 2 is shifted 2 bytes to the left
     for (int col = 0; col < 4; col++) {
         for (int i = 0; i < 2; i++) {
             temp[2][col][i] = state[2][(col + 2) % 4][i];
         }
     }
 
-    // Row 3 digeser sejauh 3 byte ke kiri
+    // Row 3 is shifted 3 bytes to the left
     for (int col = 0; col < 4; col++) {
         for (int i = 0; i < 2; i++) {
             temp[3][col][i] = state[3][(col + 3) % 4][i];
         }
     }
 
-    // Menyalin hasil pergeseran kembali ke state
+    // Copying the shifted result back to state
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             for (int i = 0; i < 2; i++) {
@@ -316,8 +306,8 @@ void shiftRows(char state[4][4][2]) {
     }
 }
 
-// Fungsi perkalian 2 heksadesimal
-void perkalianheksa (char mixMatrix[2], char state[2], char resultchar[2]) {
+// Function to perform hexadecimal multiplication
+void perkalianheksa(char mixMatrix[2], char state[2], char resultchar[2]) {
     int temp[2][2], tempakhir[2][4], tempbiner[2][2][4];
     int polynom[2][9], polynommod[9] = {1,0,0,0,1,1,0,1,1}, polynomresult[9] = {0,0,0,0,0,0,0,0,0};
     for (int j = 0; j < 2; j++){
@@ -388,13 +378,13 @@ void perkalianheksa (char mixMatrix[2], char state[2], char resultchar[2]) {
     }
 }
 
-// Fungsi untuk melakukan MixColumns Transformation pada state
+// Function to perform MixColumns Transformation on state
 void mixColumns(char state[4][4][2]) {
     char tempresult[2];
     char tempakhir[2];
     char temp[2];
 
-    // Matriks MixColumns
+    // MixColumns matrix
     char mixMatrix[4][4][2] = {
         {{'0', '2'}, {'0', '3'}, {'0', '1'}, {'0', '1'}},
         {{'0', '1'}, {'0', '2'}, {'0', '3'}, {'0', '1'}},
@@ -406,13 +396,13 @@ void mixColumns(char state[4][4][2]) {
         for (int col = 0; col < 4; col++) {
             for (int k = 0; k < 4; k++){
                 if (k == 0){
-                    perkalianheksa (mixMatrix[row][k], state[k][col], tempakhir);
+                    perkalianheksa(mixMatrix[row][k], state[k][col], tempakhir);
                 } else {
-                    perkalianheksa (mixMatrix[row][k], state[k][col], tempresult);
+                    perkalianheksa(mixMatrix[row][k], state[k][col], tempresult);
                     for (int i = 0; i < 2; i++){
                         temp[i] = tempakhir[i];
                     }
-                    xornextcolumn (temp, tempresult, tempakhir);
+                    xornextcolumn(temp, tempresult, tempakhir);
                 }
             }
             state[row][col][0] = tempakhir[0];
@@ -421,15 +411,12 @@ void mixColumns(char state[4][4][2]) {
     }
 }
 
-// Fungsi untuk melakukan enkripsi AES
+// Function to perform AES encryption
 void aesEncrypt(char state[4][4][2], char roundKeys[11][4][4][2], char resultstate[4][4][2]) {
     // Initial Round: AddRoundKey
-    cout<<"\n ---------- \n ROUND 0 : \n ---------- "<<endl;
     addRoundKey(state, roundKeys[0], resultstate);
-    tampilmatrix (resultstate);
 
-
-    // Putaran 1 hingga 9
+    // Rounds 1 through 9
     for (int round = 1; round < 10; round++) {
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 4; j++){
@@ -438,26 +425,15 @@ void aesEncrypt(char state[4][4][2], char roundKeys[11][4][4][2], char resultsta
                 }
             }
         }
-        cout<<"\n\n ---------- \n ROUND "<<round<<" : \n ---------- "<<endl;
         for (int row = 0; row < 4; row++){
             subBytes(state[row]);
         }        
-        cout<<"\n SubBytes : "<<endl;
-        tampilmatrix (state);
         shiftRows(state);
-        cout<<" ShiftRows : "<<endl;
-        tampilmatrix (state);
         mixColumns(state);
-        cout<<" MixColumn : "<<endl;
-        tampilmatrix (state);
         addRoundKey(state, roundKeys[round], resultstate);
-        cout<<" AddRoundKey : "<<endl;
-        tampilmatrix (resultstate);
-        cout<<"\n Matriks Round "<<round<<" : "<<endl;
-        tampilmatrix (resultstate);
     }
 
-    // Putaran Terakhir (Round 10)
+    // Final Round (Round 10)
     for (int i = 0; i < 4; i++){
         for (int j = 0; j < 4; j++){
             for (int k = 0; k < 2; k++){
@@ -469,7 +445,5 @@ void aesEncrypt(char state[4][4][2], char roundKeys[11][4][4][2], char resultsta
         subBytes(state[row]);
     }
     shiftRows(state);
-    addRoundKey(state, roundKeys[10],resultstate);
-    cout<<"\n\n ---------- \n ROUND 10 : \n ---------- "<<endl;
-    tampilmatrix (resultstate);
+    addRoundKey(state, roundKeys[10], resultstate);
 }
