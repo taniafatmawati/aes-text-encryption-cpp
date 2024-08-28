@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include "aes.hpp"
-#include <conio.h>
 #include <iomanip>
 #include <math.h>
 
